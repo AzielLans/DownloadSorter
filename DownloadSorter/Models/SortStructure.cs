@@ -9,17 +9,22 @@ namespace DownloadSorter.Models
 {
     public class SortStructure
     {
-        public string Name { get; set; }
-        public List<Information> Information { get; set; }
+        public List<InformationList> Information { get; set; }
 
     }
-    public class Information
+    public class InformationList
     {
+        public string Name { get; set; }
         public string Location { get; set; }
         public string Sortfile { get; set; }
     }
-    //public class InformationStructure
-    //{
-    //    public List<Information> Information { get; set; }
-    //}
+    public class InformationStructure
+    {
+        public List<InformationList> Information { get; set; }
+    }
+    public class RootStructure
+    {
+        public string DownloadLocation { get; set; }
+        public List<InformationList> Information { get; set; }
+    }
 }
