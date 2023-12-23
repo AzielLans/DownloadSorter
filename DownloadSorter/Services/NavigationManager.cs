@@ -51,7 +51,7 @@ namespace DownloadSorter.Services
             if (GetOption == "3")
             {
                 Console.Clear();
-                sortMan.list_Sorts(false);
+                sortMan.ListSorts(false);
                 return;
             }
             if (GetOption == "4")

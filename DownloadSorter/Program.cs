@@ -2,16 +2,36 @@
 using DownloadSorter.Services;
 using System.Reflection;
 
-
-NavigationManager Navman = new NavigationManager();
-SortManagment sortMan = new SortManagment();
-
-Console.Title = "DownloadSorter";
-Console.WriteLine("Download Sorter" + "[" + "v" + Assembly.GetExecutingAssembly().GetName().Version + "]");
-Thread.Sleep(1000);
-if(!File.Exists("Sorts.json"))
+namespace DownloadSorter // Note: actual namespace depends on the project name.
 {
-    sortMan.DownloadManager(true);
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            NavigationManager Navman = new NavigationManager();
+            SortManagment sortMan = new SortManagment();
+
+            Console.Title = "DownloadSorter";
+            Console.WriteLine("Download Sorter" + "[" + "v" + Assembly.GetExecutingAssembly().GetName().Version + "]");
+            Thread.Sleep(1000);
+            if (!File.Exists("Sorts.json"))
+            {
+                sortMan.DownloadManager(true);
+            }
+            Navman.MainNavigation(true);
+            Console.ReadLine();
+        }
+    }
 }
-Navman.MainNavigation(true);
-Console.ReadLine();
+//NavigationManager Navman = new NavigationManager();
+//SortManagment sortMan = new SortManagment();
+
+//Console.Title = "DownloadSorter";
+//Console.WriteLine("Download Sorter" + "[" + "v" + Assembly.GetExecutingAssembly().GetName().Version + "]");
+//Thread.Sleep(1000);
+//if(!File.Exists("Sorts.json"))
+//{
+//    sortMan.DownloadManager(true);
+//}
+//Navman.MainNavigation(true);
+//Console.ReadLine();
