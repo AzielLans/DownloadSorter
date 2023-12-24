@@ -285,11 +285,27 @@ namespace DownloadSorter.Services
                 fileNames.Add(file);
             }
             var ordered = fileNames.OrderBy(p => Path.GetExtension(p));
+            var uniqueExtensions = ordered.Select(file => Path.GetExtension(file)).Distinct();
             Console.WriteLine(string.Join(" + ", ordered));
-            while (ordered.Contains)
+            //var matchingvalues = SortfileList.Where(stringToCheck => stringToCheck.Contains(Path.GetExtension(".")));
+            //for (int i = 0; i < SortfileList.Count; i++)
+            //{
+            //    if (SortfileList[i].Contains(fileNames.)) // (you use the word "contains". either equals or indexof might be appropriate)
+            //    {
+            //        return i;
+            //    }
+            //}
+            foreach (var file in ordered)
             {
+                var extension = Path.GetExtension(file);
+                var destinationFolder = Path.Combine(Downloadlocation, extension);
+                if (SortfileList.Contains(extension))
+                {
+                    File.Move(Path.Combine(file), Path.Combine(destinationFolder.Replace(".", " ") + "/" + Path.GetFileName(file)));
+                }
 
             }
+            Console.WriteLine("Sucess");
         }
     }
 }

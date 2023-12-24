@@ -1,12 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DownloadSorter.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DownloadSorter.Models;
-using Newtonsoft.Json;
 
 namespace DownloadSorter.Services.Tests
 {
@@ -21,7 +13,7 @@ namespace DownloadSorter.Services.Tests
             {
                 sortManagment.Sort_File();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
@@ -41,7 +33,7 @@ namespace DownloadSorter.Services.Tests
             {
                 Console.WriteLine(ex.ToString());
             }
-            
+
 
         }
     }

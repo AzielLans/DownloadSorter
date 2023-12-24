@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace DownloadSorter.Services
 {
@@ -19,7 +14,7 @@ namespace DownloadSorter.Services
             Console.WriteLine("Edit a sort - 2");
             Console.WriteLine("Show all sorts - 3");
             Console.WriteLine("AutoStart Sorter - 4");
-            if(is_main_menu == true)
+            if (is_main_menu == true)
             {
                 Console.WriteLine("Change Default Download Loction - 5");
             }
@@ -56,9 +51,9 @@ namespace DownloadSorter.Services
             }
             if (GetOption == "4")
             {
-
+                sortMan.Sort_File();
             }
-            if (GetOption == "5") 
+            if (GetOption == "5")
             {
                 sortMan.DownloadManager(true);
             }
@@ -68,7 +63,7 @@ namespace DownloadSorter.Services
         {
             Console.WriteLine("Options:");
             Console.WriteLine(" ");
-            Console.WriteLine("Return - R"); 
+            Console.WriteLine("Return - R");
             Console.WriteLine("Exit - 0");
             Console.Write("Enter the value: ");
             var GetOption = Console.ReadLine();
@@ -85,7 +80,7 @@ namespace DownloadSorter.Services
             }
             if (GetOption == "R")
             {
-                Console.Clear ();
+                Console.Clear();
                 Console.WriteLine("Returning to the Main Menu ......");
                 Console.Clear();
                 Console.Title = "DownloadSorter";
