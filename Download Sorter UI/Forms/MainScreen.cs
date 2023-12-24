@@ -1,4 +1,5 @@
 ﻿using Download_Sorter_UI.Models;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 
 namespace Download_Sorter_UI.Forms
@@ -10,11 +11,10 @@ namespace Download_Sorter_UI.Forms
             InitializeComponent();
             Hide();
             ShowInTaskbar = false;
-            Notification_Informer.BalloonTipTitle = " The App is in System tray";
-            Notification_Informer.BalloonTipText = "To disable the app from starting, uncheck Start with Windows checkbox";
+            Notification_Informer.BalloonTipTitle = "Download Sorter";
+            Notification_Informer.BalloonTipText = "Download Sorter is running.";
             Notification_Informer.Visible = true;
             Notification_Informer.ShowBalloonTip(500);
-            Sort_File();
         }
         public List<string> SortLocationList = new List<string>();
         public List<string> SortfileList = new List<string>();
@@ -27,39 +27,43 @@ namespace Download_Sorter_UI.Forms
             }
             return JsonConvert.DeserializeObject<InformationStructure>(json);
         }
+
+        private void FileWatchChecher_Changed(object sender, FileSystemEventArgs e)
+        {
+            MessageBox.Show("changed");
+        }
+
+        private void FileWatchChecher_Created(object sender, FileSystemEventArgs e)
+        {
+            Sort_File();
+        }
         public void Sort_File()
         {
-
             var information = GetInformation("Sorts.json");
-            string Downloadlocation;
-            Console.WriteLine("============================");
-            try
+            string Downloadlocation = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "{374DE290-123F-4565-9164-39C4925E467B}", String.Empty).ToString();
+            List<string> fileNames = new List<string>();
+            fileNames.Clear();
+            foreach (String file in Directory.GetFiles(Downloadlocation, "*"))
             {
-                foreach (var informarionset in information.Information)
+                fileNames.Add(file);
+            }
+            var ordered = fileNames.OrderBy(p => Path.GetExtension(p));
+            var uniqueExtensions = ordered.Select(file => Path.GetExtension(file)).Distinct();
+            foreach (var sortfileextention in uniqueExtensions)
+            {
+                string mkdirfoldername = Downloadlocation + "/" + sortfileextention.Replace(".", " ");
+                if (!Directory.Exists(mkdirfoldername))
                 {
-                    SortLocationList.Add(informarionset.Location);
-                    SortfileList.Add(informarionset.Sortfile);
+                    Directory.CreateDirectory(mkdirfoldername);
                 }
             }
-            catch (Exception e)
+            foreach (var file in ordered)
             {
-                Console.WriteLine(e.Message + " " + e.Source);
-            }
-            using (StreamReader r = new StreamReader(@"Sorts.json"))
-            {
-                string json = r.ReadToEnd();
-                RootStructure structure = JsonConvert.DeserializeObject<RootStructure>(json);
-                Downloadlocation = structure.DownloadLocation;
+                var extension = Path.GetExtension(file);
+                var destinationFolder = Path.Combine(Downloadlocation, extension);
+                File.Move(Path.Combine(file), Path.Combine(destinationFolder.Replace(".", " ") + "/" + Path.GetFileName(file)));
 
             }
-            Console.WriteLine(string.Join(" + ", Downloadlocation));
-            Console.WriteLine(string.Join(" + ", SortLocationList));
-            Console.WriteLine(string.Join(" + ", SortfileList));
-            foreach (var sortfileextention in SortfileList)
-            {
-                Console.WriteLine("TEST");
-            }
-
         }
     }
 }

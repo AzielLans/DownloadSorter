@@ -1,4 +1,6 @@
-﻿namespace Download_Sorter_UI.Forms
+﻿using Microsoft.Win32;
+
+namespace Download_Sorter_UI.Forms
 {
     partial class MainScreen
     {
@@ -31,6 +33,8 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainScreen));
             Notification_Informer = new NotifyIcon(components);
+            FileWatchChecher = new FileSystemWatcher();
+            ((System.ComponentModel.ISupportInitialize)FileWatchChecher).BeginInit();
             SuspendLayout();
             // 
             // Notification_Informer
@@ -38,6 +42,15 @@
             Notification_Informer.Icon = (Icon)resources.GetObject("Notification_Informer.Icon");
             Notification_Informer.Text = "notifyIcon1";
             Notification_Informer.Visible = true;
+            // 
+            // FileWatchChecher
+            // 
+            FileWatchChecher.EnableRaisingEvents = true;
+            FileWatchChecher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime | NotifyFilters.Size;
+            FileWatchChecher.Path = Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders", "{374DE290-123F-4565-9164-39C4925E467B}", String.Empty).ToString();
+            FileWatchChecher.SynchronizingObject = this;
+            FileWatchChecher.Changed += FileWatchChecher_Changed;
+            FileWatchChecher.Created += FileWatchChecher_Created;
             // 
             // MainScreen
             // 
@@ -47,10 +60,12 @@
             Name = "MainScreen";
             Text = "MainScreen";
             WindowState = FormWindowState.Minimized;
+            ((System.ComponentModel.ISupportInitialize)FileWatchChecher).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
         private NotifyIcon Notification_Informer;
+        private FileSystemWatcher FileWatchChecher;
     }
 }
